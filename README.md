@@ -143,4 +143,3 @@ var vnode = <HelloMessage name="Yassine" />
 ```
 
 If you're wondering how Components fit in a large application, you can look into the todomvc example (in the 'examples' folder). The application is implemented using the Elm architecture. For more information see [React-less Virtual DOM with Snabbdom : functions everywhere!](https://medium.com/@yelouafi/react-less-virtual-dom-with-snabbdom-functions-everywhere-53b672cb2fe3)
-
