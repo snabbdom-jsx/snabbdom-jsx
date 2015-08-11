@@ -150,4 +150,27 @@ const HelloMessage = ({name}) =>
 var vnode = <HelloMessage name="Yassine" />
 ```
 
+As in React, note that all components must start with a capital letter, while regular HTML tags start with lower case letters. This the way Babel also distinguish component invocation from simple tag creation. 
+
+Perhaps of less obvious utility, but instead of a function, a component can also be an object with a `view` function; i added this in order to support nesting in UI patterns; especially in the Elm architecture, where a component is an object with a `view` function (among others)
+
+for example you can have a `Task` component
+
+
+```js
+Task.view = ({task}) => ...
+Task.update = ...
+```
+
+and use it inside a `Todos` component like this
+
+```js
+import Task from './task'
+
+
+Todos.view = ({todos}) =>
+  todos.map( task => <Task task={task} /> )
+```
+
+
 If you're wondering how Components would fit in a large application, you can look into the [todomvc example](https://github.com/yelouafi/snabbdom-jsx/tree/master/examples/todomvc). The application is implemented using the Elm architecture. For more information see [React-less Virtual DOM with Snabbdom : functions everywhere!](https://medium.com/@yelouafi/react-less-virtual-dom-with-snabbdom-functions-everywhere-53b672cb2fe3)
