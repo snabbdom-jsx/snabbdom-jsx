@@ -24,7 +24,7 @@ import { html } from 'snabbdom-jsx';
 
 const patch = snabbdom.init([...]);
 
-const mydiv = <div>Hello JSX</div>
+const vnode = <div>Hello JSX</div>
 
 patch(document.getElementById('placeholder'), vnode);
 ```
