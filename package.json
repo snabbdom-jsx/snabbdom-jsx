@@ -1,0 +1,26 @@
+{
+  "name": "snabbdom-jsx",
+  "version": "0.1.0",
+  "description": "Write snabbdom views using JSX and Babel",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yelouafi/snabbdom-jsx.git"
+  },
+  "keywords": [
+    "snabbdom",
+    "virtual-dom",
+    "jsx"
+  ],
+  "author": "Yassine Elouafi <yelouafi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yelouafi/snabbdom-jsx/issues"
+  },
+  "homepage": "https://github.com/yelouafi/snabbdom-jsx",
+  "devDependencies": {
+    "tape": "^4.0.3"
+  }
+}
