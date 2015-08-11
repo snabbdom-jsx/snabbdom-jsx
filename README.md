@@ -2,9 +2,9 @@ Write [Snabbdom](https://github.com/paldepind/snabbdom) views with [Babel's JSX]
 
 Features:
 
-- Transform Babel JSX templates to Snabbdom virtual nodes
+- Transforms Babel JSX templates into Snabbdom virtual nodes
 - Straightforward mapping from JSX attributes to Snabbdom data attributes using namespaces 
-- JSX Components are simples functions `(attributes, children) => vnode`. No more messy classes.
+- JSX Components are simple functions `(attributes, children) => vnode`. No more messy classes.
 
 Usage
 ======
@@ -29,12 +29,12 @@ const vnode = <div>Hello JSX</div>
 patch(document.getElementById('placeholder'), vnode);
 ```
 
-The `/** @jsx html */` pragma at the top tells Babel to use the `html` function instead of the React.createElement default. The `html` function takes arguments passed from Babel and generate virtual nodes as expected by Snabbdom's `patch` function.
+The `/** @jsx html */` pragma at the top tells Babel to use the `html` function instead of the React.createElement default. The `html` function takes arguments passed from Babel and generates virtual nodes as expected by Snabbdom's `patch` function.
 
 Mapping JSX attributes
 =======================
 
-A quick remainder: In snabbdom, most of the functionalities like toggling classes, styles and setting properties on DOM elements are delegated to separate modules.
+A quick remainder: in snabbdom, most of the functionalities like toggling classes, styles and setting properties on DOM elements are delegated to separate modules.
 
 For example
 
@@ -47,7 +47,7 @@ const myInput = h('input', {
 })
 ```
 
-Each module handles a portion of the data attributes (the 2nd parameter to `h`). And each portion is stored inside a **namespace**, for example, event attributes are placed inside the `on` namespace, class attributes inside the `class` namespace and so on.
+Each module handles a portion of the data attributes (the 2nd parameter to `h`). And each portion is stored inside a *namespace*, for example, event attributes are placed inside the `on` namespace, class attributes inside the `class` namespace and so on.
 
 
 By default all attributes listed in the JSX element are placed inside the `props` namespace.
@@ -73,7 +73,7 @@ h('button', { on: { click: callback } })
 ```
 
 
-This a generic rule: to map a JSX attribute to a specific module, you need to prefix the attribute with `pref-` where `pref` is the namespace used by the module in Snabbdom. As in the example above, all attributes with the `on-` prefix will be placed inside the the `on` namespace.
+This is a generic rule: to map a JSX attribute to a specific module, you need to prefix the attribute with `pref-` where `pref` is the namespace used by the module in Snabbdom. As in the example above, all attributes with the `on-` prefix will be placed inside the the `on` namespace. This gives a simple and extensible pattern to support other custom modules.
 
 Another example using the `class` namespace
 
