@@ -1,6 +1,6 @@
-Write [Snabbdom](https://github.com/paldepind/snabbdom) views with [Babel's JSX](http://babeljs.io/docs/advanced/transformers/other/react/).
+Write [Snabbdom](https://github.com/paldepind/snabbdom) virtual DOM with [Babel's JSX](http://babeljs.io/docs/advanced/transformers/other/react/).
 
-Snabbdom is a small Virtual DOM library. Unlike React, it's not a full opinionated framework, but just focuses on the core virtual DOM problem : construct virtual DOM trees (virtual nodes) and patch the real DOM with them. When this operations will happen is entirely up to you. The main benefit is that you can adopt whatver architdectural UI pattern you like in you application.
+Snabbdom is a small Virtual DOM library. Unlike React, it's not a full opinionated framework, but just focuses on the core virtual DOM problem : construct virtual DOM trees (virtual nodes) and patch the real DOM with them. When this operations will happen is entirely up to you. The main benefit is that you can adopt whatver architdectural UI pattern you like in your application.
 
 Babel is JavaScript compiler that converts ES2015 (modern JavaScript) into compatible JavaScript (ES5) code. A nice feature of Babel is that it supports [React JSX syntax](http://facebook.github.io/react/docs/displaying-data.html#jsx-syntax) and in the same time allows you to take the result of this JSX (attributes + body) and do wharever you like with it. Sanbbdom-jsx transforms this JSX data into snabbdom virtual nodes. 
 
