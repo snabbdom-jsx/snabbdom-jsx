@@ -73,7 +73,7 @@ h('button', { on: { click: callback } })
 ```
 
 
-This is a generic rule: to map a JSX attribute to a specific module, you need to prefix the attribute with `pref-` where `pref` is the namespace used by the module in Snabbdom. As in the example above, all attributes with the `on-` prefix will be placed inside the the `on` namespace. This gives a simple and extensible pattern to support other custom modules.
+This is a generic rule to map a JSX attribute to a specific module, you need to prefix the attribute with `pref-` where `pref` is the namespace used by the module in Snabbdom. As in the example above, all attributes with the `on-` prefix (i.e. event listeners) will be placed inside the the `on` namespace. This gives us a simple and extensible pattern to support other custom modules.
 
 Another example using the `class` namespace
 
@@ -93,7 +93,7 @@ h('div', {
 }, [...])
 ```
 
-But you can also specifies an unique object the same way as in the `h` function, this is useful when you have a dynamic object 
+But you can also specify an unique object the same way as in the `h` function, this is useful when you have a dynamic object 
 
 ```js
 <div
