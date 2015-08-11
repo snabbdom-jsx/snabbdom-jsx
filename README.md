@@ -47,7 +47,7 @@ const myInput = h('input', {
 })
 ```
 
-Each module handles a portion of the data attributes (the object in the parameter to `h`). And each portion is stored inside a **namespace**, for example, event attributes are placed inside the `on` namespace, class attributes inside the `class` namespace and so on.
+Each module handles a portion of the data attributes (the 2nd parameter to `h`). And each portion is stored inside a **namespace**, for example, event attributes are placed inside the `on` namespace, class attributes inside the `class` namespace and so on.
 
 
 By default all attributes listed in the JSX element are placed inside the `props` namespace.
