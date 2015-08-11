@@ -9,6 +9,14 @@ Features:
 Usage
 ======
 
+installation
+
+```
+npm install snabbdom-jsx
+```
+
+Hello example
+
 ```js
 /** @jsx html */
 
