@@ -20,7 +20,7 @@ Hello example
 ```js
 /** @jsx html */
 
-import { html } from '../../snabbdom-jsx';
+import { html } from 'snabbdom-jsx';
 
 const patch = snabbdom.init([...]);
 
