@@ -19,7 +19,7 @@ installation
 npm install snabbdom-jsx
 ```
 
-Hello example
+Hello example ([see the complete example here](https://github.com/yelouafi/snabbdom-jsx/blob/master/examples/hello/main.js))
 
 ```js
 /** @jsx html */
@@ -123,6 +123,31 @@ You can mix both styles, the result will be a merge of all attributes
   
   ...
 </div>
+```
+
+Static classes
+==============
+
+In Snabbdom you can create an element using a css-like syntax 
+
+```js
+h('div.class1.class2', ...)
+```
+
+This will add the class names to the classList of the element. Unlike classes specified in the `class` namesapce, those are static classes meaning they will not be re-updated during patch operations. 
+
+In JSX you can use the `classNames` attribute to create static classes
+
+
+```js
+<div classNames="class1 class 2" />
+```
+
+You can also use an array instead of a string
+
+```js
+const classes = ['classe1', ...];
+<div classNames={classes} />
 ```
 
 
