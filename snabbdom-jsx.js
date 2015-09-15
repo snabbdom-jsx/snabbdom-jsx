@@ -23,7 +23,7 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   for(var key in attrs) {
     const parts = key.split('-');
     if(parts.length > 1)
-      addAttr(parts[0], parts[1], attrs[key]);
+      addAttr(parts[0], key.slice(key.indexOf('-')+1), attrs[key]);
     else if(!map[key])
       addAttr(defNS, parts[0], attrs[key]);
   }
