@@ -31,6 +31,7 @@ test('jsx -> html vnode', (assert) => {
         type="text" 
         style={style}
         style-color='red'
+        class-cs-1={true}
         on-click={callback}/>
     </div>;
     
@@ -40,7 +41,8 @@ test('jsx -> html vnode', (assert) => {
       ns: undefined,
       props: { type: 'text' },
       on: { click: callback },
-      style: { fontWeight: 'bold', color: 'red' }
+      style: { fontWeight: 'bold', color: 'red' },
+      class: { 'cs-1': true }
     },
     children: []
   });

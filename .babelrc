@@ -1,0 +1,9 @@
+{
+  "plugins": [
+      "babel-plugin-transform-es2015-destructuring",
+      "babel-plugin-transform-es2015-parameters",
+      "transform-es2015-modules-commonjs", 
+      "transform-react-jsx", 
+      "syntax-jsx"
+    ]
+}

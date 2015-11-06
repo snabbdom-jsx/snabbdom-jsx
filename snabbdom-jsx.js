@@ -21,21 +21,21 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       map[mod] = attrs[mod];
   }
   for(var key in attrs) {
-    const parts = key.split('-');
-    if(parts.length > 1)
-      addAttr(parts[0], key.slice(key.indexOf('-')+1), attrs[key]);
+    var idx = key.indexOf('-');
+    if(idx > 0)
+      addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
     else if(!map[key])
-      addAttr(defNS, parts[0], attrs[key]);
+      addAttr(defNS, key, attrs[key]);
   }
   return map;
   
   function addAttr(namespace, key, val) {
-    const ns = map[namespace] || (map[namespace] = {});
+    var ns = map[namespace] || (map[namespace] = {});
     ns[key] = val;
   }
 }
 
-function jsx(nsURI, defNS, modules, tag, attrs, children) {
+function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
   attrs = attrs || {};
   if(attrs.classNames) {
     var cns = attrs.classNames;
@@ -61,8 +61,8 @@ function JSX(nsURI, defNS, modules) {
   return function jsxWithCustomNS(tag, attrs, children) {
     if(arguments.length > 3 || !Array.isArray(children))
       children = slice.call(arguments, 2);
-    return jsx(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
-  } 
+    return buildVnode(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
+  };
 }
 
 module.exports = { 
