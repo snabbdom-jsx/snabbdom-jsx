@@ -1,7 +1,7 @@
 "use strict";
 
 var SVGNS = "http://www.w3.org/2000/svg";
-var modulesNS = ['key', 'hook', 'on', 'style', 'class', 'props'];
+var modulesNS = ['hook', 'on', 'style', 'class', 'props'];
 var slice = Array.prototype.slice;
 
 function isPrimitive(val) {
@@ -30,8 +30,10 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   return map;
   
   function addAttr(namespace, key, val) {
-    var ns = map[namespace] || (map[namespace] = {});
-    ns[key] = val;
+    if(key !== 'key') {
+      var ns = map[namespace] || (map[namespace] = {});
+      ns[key] = val; 
+    }
   }
 }
 
@@ -43,13 +45,15 @@ function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
       Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.')  
     );
   }
+    
   if(typeof tag === 'string') {
     return { 
       sel       : tag, 
       data      : normalizeAttrs(attrs, nsURI, defNS, modules), 
       children  : children.map( function(c) { 
         return isPrimitive(c) ? {text: c} : c;
-      })
+      }),
+      key: attrs.key
     };
   } else if(typeof tag === 'function')
     return tag(attrs, children);

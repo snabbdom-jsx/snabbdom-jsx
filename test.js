@@ -21,7 +21,8 @@ test('jsx -> html vnode', (assert) => {
         ns: undefined,
         props: { htmlFor: 'someid' }
       },
-      children: [{ text: 'label'}]
+      children: [{ text: 'label'}],
+      key: undefined
     }  
   ]);
   
@@ -29,6 +30,7 @@ test('jsx -> html vnode', (assert) => {
     <div>
       <input 
         type="text" 
+        key="key"
         style={style}
         style-color='red'
         class-cs-1={true}
@@ -44,7 +46,8 @@ test('jsx -> html vnode', (assert) => {
       style: { fontWeight: 'bold', color: 'red' },
       class: { 'cs-1': true }
     },
-    children: []
+    children: [],
+    key: 'key'
   });
 
   assert.end();
@@ -66,7 +69,8 @@ test('jsx components', (assert) => {
         ns: undefined,
         style: { fontWeight: 'bold', color: 'red' }
       },
-      children: []
+      children: [],
+      key: undefined
     }  
   );
   
