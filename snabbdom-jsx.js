@@ -28,11 +28,11 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       addAttr(defNS, key, attrs[key]);
   }
   return map;
-  
+
   function addAttr(namespace, key, val) {
     if(key !== 'key') {
       var ns = map[namespace] || (map[namespace] = {});
-      ns[key] = val; 
+      ns[key] = val;
     }
   }
 }
@@ -42,23 +42,32 @@ function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
   if(attrs.classNames) {
     var cns = attrs.classNames;
     tag = tag + '.' + (
-      Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.')  
+      Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.')
     );
   }
-    
+
   if(typeof tag === 'string') {
-    return { 
-      sel       : tag, 
-      data      : normalizeAttrs(attrs, nsURI, defNS, modules), 
-      children  : children.map( function(c) { 
+    return {
+      sel       : tag,
+      data      : normalizeAttrs(attrs, nsURI, defNS, modules),
+      children  : children.map( function(c) {
         return isPrimitive(c) ? {text: c} : c;
       }),
       key: attrs.key
     };
-  } else if(typeof tag === 'function')
-    return tag(attrs, children);
-  else if(tag && typeof tag.view === 'function')
-    return tag.view(attrs, children);
+  } else {
+    var res;
+    if(typeof tag === 'function')
+      res = tag(attrs, children);
+    else if(tag && typeof tag.view === 'function')
+      res = tag.view(attrs, children);
+    else if(tag && typeof tag.render === 'function')
+      res = tag.view(attrs, children);
+    else
+      throw "JSX tag must be either a string, a function or an object with 'view' or 'render' methods";
+    res.key = attrs.key;
+    return res;
+  }
 }
 
 function JSX(nsURI, defNS, modules) {
@@ -69,8 +78,8 @@ function JSX(nsURI, defNS, modules) {
   };
 }
 
-module.exports = { 
-  html: JSX(undefined), 
-  svg: JSX(SVGNS, 'attrs'), 
-  JSX: JSX 
+module.exports = {
+  html: JSX(undefined),
+  svg: JSX(SVGNS, 'attrs'),
+  JSX: JSX
 };
