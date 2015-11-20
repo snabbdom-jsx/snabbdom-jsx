@@ -18,3 +18,6 @@ export function pipe(...fns) {
     return res;
   };
 };
+
+export const targetChecked = e => e.target.checked;
+export const targetValue = e => e.target.value;

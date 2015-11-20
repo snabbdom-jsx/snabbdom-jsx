@@ -2,9 +2,8 @@
 
 import { html } from '../../../snabbdom-jsx';
 import Type from 'union-type';
-import { bind, pipe, isBoolean }  from './helpers';
-
-const KEY_ENTER = 13;
+import { bind, pipe, isBoolean, targetValue, targetChecked }  from './helpers';
+import { KEY_ENTER } from './constants';
 
 // model : {id: Number, title: String, done: Boolean, editing: Boolean, editingValue: String }
 const Action = Type({
@@ -15,8 +14,7 @@ const Action = Type({
   CancelEdit    : []
 });
 
-const targetChecked = e => e.target.checked;
-const targetValue = e => e.target.value;
+
 
 function onInput(handler, e) {
   if(e.keyCode === KEY_ENTER)
@@ -28,24 +26,24 @@ const view = ({model, handler, onRemove}) =>
       key={model.id}
       class-completed={!!model.done && !model.editing}
       class-editing={model.editing}>
-      
-      <div classNames="view">
-        <input 
-          classNames="toggle"
+
+      <div selector=".view">
+        <input
+          selector=".toggle"
           type="checkbox"
           checked={!!model.done}
           on-click={ pipe(targetChecked, Action.Toggle, handler) } />
-          
+
         <label
           on-dblclick={ bind(handler, Action.StartEdit()) }>{model.title}</label>
-          
+
         <button
-          classNames="destroy"
+          selector=".destroy"
           on-click={onRemove} />
       </div>
-      
+
       <input
-        classNames="edit"
+        selector=".edit"
         value={model.title}
         on-blur={ bind(handler, Action.CancelEdit()) }
         on-keydown={ bind(onInput, handler) } />
