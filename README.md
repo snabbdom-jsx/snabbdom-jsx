@@ -144,7 +144,7 @@ You can mix both styles, the result will be a merge of all attributes
 </div>
 ```
 
-Id Static classes (sel attribute)
+Id and static classes (sel attribute)
 ================================
 
 In Snabbdom you can create an element using a css-like syntax
