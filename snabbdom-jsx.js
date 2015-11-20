@@ -1,7 +1,7 @@
 "use strict";
 
-var SVGNS = "http://www.w3.org/2000/svg";
-var modulesNS = ['hook', 'on', 'style', 'class', 'props'];
+var SVGNS = 'http://www.w3.org/2000/svg';    
+var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
 function isPrimitive(val) {
@@ -21,24 +21,27 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       map[mod] = attrs[mod];
   }
   for(var key in attrs) {
-    var idx = key.indexOf('-');
-    if(idx > 0)
-      addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
-    else if(!map[key])
-      addAttr(defNS, key, attrs[key]);
+    if(key !== 'key' && key !== 'classNames' && key !== 'selector') {
+      var idx = key.indexOf('-');
+      if(idx > 0)
+        addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
+      else if(!map[key])
+        addAttr(defNS, key, attrs[key]);
+    }
   }
   return map;
 
   function addAttr(namespace, key, val) {
-    if(key !== 'key') {
-      var ns = map[namespace] || (map[namespace] = {});
-      ns[key] = val;
-    }
+    var ns = map[namespace] || (map[namespace] = {});
+    ns[key] = val;
   }
 }
 
-function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
-  attrs = attrs || {};
+function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
+
+  if(attrs.selector) {
+    tag = tag + attrs.selector;
+  }
   if(attrs.classNames) {
     var cns = attrs.classNames;
     tag = tag + '.' + (
@@ -46,27 +49,36 @@ function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
     );
   }
 
+  return {
+    sel       : tag,
+    data      : normalizeAttrs(attrs, nsURI, defNS, modules),
+    children  : children.map( function(c) {
+      return isPrimitive(c) ? {text: c} : c;
+    }),
+    key: attrs.key
+  };
+}
+
+function buildFromComponent(nsURI, defNS, modules, tag, attrs, children) {
+  var res;
+  if(typeof tag === 'function')
+    res = tag(attrs, children);
+  else if(tag && typeof tag.view === 'function')
+    res = tag.view(attrs, children);
+  else if(tag && typeof tag.render === 'function')
+    res = tag.render(attrs, children);
+  else
+    throw "JSX tag must be either a string, a function or an object with 'view' or 'render' methods";
+  res.key = attrs.key;
+  return res;
+}
+
+function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
+  attrs = attrs || {};
   if(typeof tag === 'string') {
-    return {
-      sel       : tag,
-      data      : normalizeAttrs(attrs, nsURI, defNS, modules),
-      children  : children.map( function(c) {
-        return isPrimitive(c) ? {text: c} : c;
-      }),
-      key: attrs.key
-    };
+    return buildFromStringTag(nsURI, defNS, modules, tag, attrs, children)
   } else {
-    var res;
-    if(typeof tag === 'function')
-      res = tag(attrs, children);
-    else if(tag && typeof tag.view === 'function')
-      res = tag.view(attrs, children);
-    else if(tag && typeof tag.render === 'function')
-      res = tag.view(attrs, children);
-    else
-      throw "JSX tag must be either a string, a function or an object with 'view' or 'render' methods";
-    res.key = attrs.key;
-    return res;
+    return buildFromComponent(nsURI, defNS, modules, tag, attrs, children)
   }
 }
 

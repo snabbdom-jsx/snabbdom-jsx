@@ -50,6 +50,17 @@ test('jsx -> html vnode', (assert) => {
     key: 'key'
   });
 
+  const div3 = <div selector="#id.c1.c2"></div>;
+  assert.deepEqual(div3, {
+    sel: 'div#id.c1.c2',
+    data: {
+      ns: undefined
+    },
+    children: [],
+    key: undefined
+  });
+
+
   assert.end();
 });
 
