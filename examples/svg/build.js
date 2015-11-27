@@ -415,19 +415,42 @@ var _snabbdom = require('snabbdom');
 
 var _snabbdom2 = _interopRequireDefault(_snabbdom);
 
-var _svg = require('./svg');
-
-var _svg2 = _interopRequireDefault(_svg);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/attributes'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners')]); /** @jsx html */
+/** @jsx html */
+
+var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/attributes'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners')]);
+
+var AnimeNode = function AnimeNode(_ref) {
+  var animate = _ref.animate;
+
+  var animNode = undefined;
+  if (animate) animNode = (0, _snabbdomJsx.html)('animateTransform', {
+    attributeName: 'transform',
+    begin: '0s',
+    dur: '20s',
+    type: 'rotate',
+    from: '0 60 60',
+    to: '360 60 60',
+    repeatCount: 'indefinite'
+  });
+
+  return (0, _snabbdomJsx.html)(
+    'svg',
+    null,
+    (0, _snabbdomJsx.html)(
+      'rect',
+      { x: '10', y: '10', height: '110', width: '110', 'style-stroke': '#ff0000', 'style-fill': '#0000ff' },
+      animNode
+    )
+  );
+};
 
 var view = function view(animate) {
   return (0, _snabbdomJsx.html)(
     'div',
     null,
-    (0, _snabbdomJsx.html)(_svg2.default, { animate: animate }),
+    (0, _snabbdomJsx.html)(AnimeNode, { animate: animate }),
     (0, _snabbdomJsx.html)(
       'button',
       { 'on-click': toggleAnimate },
@@ -445,43 +468,7 @@ function toggleAnimate() {
 
 toggleAnimate();
 
-},{"../../snabbdom-jsx":10,"./svg":9,"snabbdom":6,"snabbdom/modules/attributes":2,"snabbdom/modules/class":3,"snabbdom/modules/eventlisteners":4,"snabbdom/modules/style":5}],9:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _snabbdomJsx = require("../../snabbdom-jsx");
-
-var MySvg = function MySvg(_ref) {
-  var animate = _ref.animate;
-
-  var animNode = undefined;
-  if (animate) animNode = (0, _snabbdomJsx.svg)("animateTransform", {
-    attributeName: "transform",
-    begin: "0s",
-    dur: "20s",
-    type: "rotate",
-    from: "0 60 60",
-    to: "360 60 60",
-    repeatCount: "indefinite"
-  });
-
-  return (0, _snabbdomJsx.svg)(
-    "svg",
-    null,
-    (0, _snabbdomJsx.svg)(
-      "rect",
-      { x: "10", y: "10", height: "110", width: "110", "style-stroke": "#ff0000", "style-fill": "#0000ff" },
-      animNode
-    )
-  );
-}; /** @jsx svg */
-
-exports.default = MySvg;
-
-},{"../../snabbdom-jsx":10}],10:[function(require,module,exports){
+},{"../../snabbdom-jsx":9,"snabbdom":6,"snabbdom/modules/attributes":2,"snabbdom/modules/class":3,"snabbdom/modules/eventlisteners":4,"snabbdom/modules/style":5}],9:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
@@ -503,7 +490,9 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   for (var key in attrs) {
     if (key !== 'key' && key !== 'classNames' && key !== 'selector') {
       var idx = key.indexOf('-');
-      if (idx > 0) addAttr(key.slice(0, idx), key.slice(idx + 1), attrs[key]);else if (!map[key]) addAttr(defNS, key, attrs[key]);
+      if (idx > 0) addAttr(key.slice(0, idx), key.slice(idx + 1), attrs[key]);else if (!map[key]) {
+        addAttr(defNS, key, attrs[key]);
+      }
     }
   }
   return map;
@@ -514,22 +503,37 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   }
 }
 
-function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
+function setSVGNS(data, children) {
+  data.ns = SVGNS;
+  data.attrs = data.props;
+  delete data.props;
+  for (var i = 0, len = children.length; i < len; i++) {
+    var child = children[i];
+    if (child.data) setSVGNS(child.data, child.children);
+  }
+}
 
+function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
+  var sel = tag;
   if (attrs.selector) {
-    tag = tag + attrs.selector;
+    sel = sel + attrs.selector;
   }
   if (attrs.classNames) {
     var cns = attrs.classNames;
-    tag = tag + '.' + (Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.'));
+    sel = sel + '.' + (Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.'));
   }
 
+  var data = normalizeAttrs(attrs, nsURI, defNS, modules),
+      children = children.map(function (c) {
+    return isPrimitive(c) ? { text: c } : c;
+  });
+
+  if (tag === 'svg') setSVGNS(data, children, SVGNS);
+
   return {
-    sel: tag,
-    data: normalizeAttrs(attrs, nsURI, defNS, modules),
-    children: children.map(function (c) {
-      return isPrimitive(c) ? { text: c } : c;
-    }),
+    sel: sel,
+    data: data,
+    children: children,
     key: attrs.key
   };
 }

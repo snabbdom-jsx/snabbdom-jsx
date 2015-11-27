@@ -1,6 +1,6 @@
 "use strict";
 
-var SVGNS = 'http://www.w3.org/2000/svg';    
+var SVGNS = 'http://www.w3.org/2000/svg';
 var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
@@ -25,8 +25,9 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       var idx = key.indexOf('-');
       if(idx > 0)
         addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
-      else if(!map[key])
+      else if(!map[key]) {
         addAttr(defNS, key, attrs[key]);
+      }
     }
   }
   return map;
@@ -37,25 +38,42 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   }
 }
 
-function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
+function setSVGNS(data, children) {
+  data.ns = SVGNS;
+  data.attrs = data.props;
+  delete data.props;
+  for (var i = 0, len = children.length; i < len; i++) {
+    var child = children[i];
+    if(child.data)
+      setSVGNS(child.data, child.children);
+  }
+}
 
+function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
+  var sel = tag;
   if(attrs.selector) {
-    tag = tag + attrs.selector;
+    sel = sel + attrs.selector;
   }
   if(attrs.classNames) {
     var cns = attrs.classNames;
-    tag = tag + '.' + (
+    sel = sel + '.' + (
       Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.')
     );
   }
 
-  return {
-    sel       : tag,
-    data      : normalizeAttrs(attrs, nsURI, defNS, modules),
-    children  : children.map( function(c) {
-      return isPrimitive(c) ? {text: c} : c;
-    }),
-    key: attrs.key
+  var data = normalizeAttrs(attrs, nsURI, defNS, modules),
+      children = children.map( function(c) {
+        return isPrimitive(c) ? {text: c} : c;
+      });
+
+ if(tag === 'svg')
+  setSVGNS(data, children, SVGNS);
+
+return {
+    sel       : sel,
+    data      : data,
+    children  : children,
+    key       : attrs.key
   };
 }
 
