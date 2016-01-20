@@ -11,7 +11,15 @@ This has allowed us to implement snabbdom for the build output, but also test ou
 ### Supported React event names
 
 ```
-onCut onCopy onPaste onKeyDown onKeyPress onKeyUp onFocus onBlur onChange onInput onSubmit onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp onSelect onTouchCancel onTouchEnd onTouchMove onTouchStart onScroll onWheel onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded 
+onCut onCopy onPaste
+onKeyDown onKeyPress onKeyUp
+onFocus onBlur onChange onInput onSubmit
+onClick onContextMenu onDoubleClick
+onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop
+onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp
+onSelect onTouchCancel onTouchEnd onTouchMove onTouchStart
+onScroll onWheel
+onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded 
 ```
 
 The following is the original [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx) documentation:
