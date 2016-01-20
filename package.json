@@ -1,6 +1,6 @@
 {
   "name": "snabbdom-react-jsx",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Write snabbdom views using React-style JSX and Babel",
   "main": "snabbdom-react-jsx.js",
   "scripts": {
@@ -8,19 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yelouafi/snabbdom-jsx.git"
+    "url": "https://github.com/f5io/snabbdom-react-jsx.git"
   },
   "keywords": [
     "snabbdom",
     "virtual-dom",
     "jsx"
   ],
-  "author": "Yassine Elouafi <yelouafi@gmail.com>",
+  "author": "Joe Harlow <joe@f5.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yelouafi/snabbdom-jsx/issues"
+    "url": "https://github.com/f5io/snabbdom-react-jsx/issues"
   },
-  "homepage": "https://github.com/yelouafi/snabbdom-jsx",
+  "homepage": "https://github.com/f5io/snabbdom-react-jsx",
   "devDependencies": {
     "babel-cli": "^6.1.18",
     "babel-preset-es2015": "^6.1.2",
