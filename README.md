@@ -1,3 +1,5 @@
+# A fork of [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx) to facilitate the use of React-style JSX syntax for event handlers.
+
 Write [Snabbdom](https://github.com/paldepind/snabbdom) virtual DOM with
 [Babel's JSX](http://babeljs.io/docs/advanced/transformers/other/react/).
 
@@ -25,7 +27,7 @@ Usage
 installation
 
 ```
-npm install snabbdom-jsx
+npm install snabbdom-react-jsx
 ```
 
 Hello example ([see the complete example here](https://github.com/yelouafi/snabbdom-jsx/blob/master/examples/hello/main.js))
@@ -33,7 +35,7 @@ Hello example ([see the complete example here](https://github.com/yelouafi/snabb
 ```js
 /** @jsx html */
 
-import { html } from 'snabbdom-jsx';
+import { html } from 'snabbdom-react-jsx';
 
 const patch = snabbdom.init([...]);
 

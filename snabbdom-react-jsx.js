@@ -4,6 +4,60 @@ var SVGNS = 'http://www.w3.org/2000/svg';
 var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
+var reactEventMap = {
+  onCut: 'cut',
+  onCopy: 'copy',
+  onPaste: 'paste',
+  onKeyDown: 'keydown',
+  onKeyPress: 'keypress',
+  onKeyUp: 'keyup',
+  onFocus: 'focus',
+  onBlur: 'blur',
+  onChange: 'change',
+  onInput: 'input',
+  onSubmit: 'submit',
+  onClick: 'click',
+  onContextMenu: 'contextmenu',
+  onDoubleClick: 'dblclick',
+  onDrag: 'drag',
+  onDragEnd: 'dragend',
+  onDragEnter: 'dragenter',
+  onDragExit: 'dragexit',
+  onDragLeave: 'dragleave',
+  onDragOver: 'dragover',
+  onDragStart: 'dragstart',
+  onDrop: 'drop',
+  onMouseDown: 'mousedown',
+  onMouseEnter: 'mouseenter',
+  onMouseLeave: 'mouseleave',
+  onMouseMove: 'mousemove',
+  onMouseOut: 'mouseout',
+  onMouseOver: 'mouseover',
+  onMouseUp: 'mouseup',
+  onSelect: 'select',
+  onTouchCancel: 'touchcancel',
+  onTouchEnd: 'touchend',
+  onTouchMove: 'touchmove',
+  onTouchStart: 'touchstart',
+  onScroll: 'scroll',
+  onWheel: 'wheel',
+  onAbort: 'abort',
+  onCanPlay: 'canplay',
+  onCanPlayThrough: 'canplaythrough',
+  onDurationChange: 'durationchange',
+  onEmptied: 'emptied',
+  onEncrypted: 'encrypted',
+  onEnded: 'ended',
+  defaultValue: 'value'
+}
+
+function assign(obj, ext) {
+  for (var prop in ext) {
+    obj[prop] = (obj.hasOwnProperty(prop)) ? obj[prop] : ext[prop];
+  }
+  return obj;
+}
+
 function isPrimitive(val) {
   return  typeof val === 'string'   ||
           typeof val === 'number'   ||
@@ -25,6 +79,8 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       var idx = key.indexOf('-');
       if(idx > 0)
         addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
+      else if(Object.keys(reactEventMap).indexOf(key) > 0)
+        addAttr(key.indexOf('on') === 0 ? 'on' : defNS, reactEventMap[key], attrs[key]);
       else if(!map[key])
         addAttr(defNS, key, attrs[key]);
     }
@@ -62,11 +118,11 @@ function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
 function buildFromComponent(nsURI, defNS, modules, tag, attrs, children) {
   var res;
   if(typeof tag === 'function')
-    res = tag(attrs, children);
+    res = tag(assign(attrs, { children: children }));
   else if(tag && typeof tag.view === 'function')
-    res = tag.view(attrs, children);
+    res = tag.view(assign(attrs, { children: children }));
   else if(tag && typeof tag.render === 'function')
-    res = tag.render(attrs, children);
+    res = tag.render(assign(attrs, { children: children }));
   else
     throw "JSX tag must be either a string, a function or an object with 'view' or 'render' methods";
   res.key = attrs.key;

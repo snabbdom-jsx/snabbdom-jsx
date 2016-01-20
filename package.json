@@ -1,8 +1,8 @@
 {
-  "name": "snabbdom-jsx",
-  "version": "0.3.0",
-  "description": "Write snabbdom views using JSX and Babel",
-  "main": "snabbdom-jsx.js",
+  "name": "snabbdom-react-jsx",
+  "version": "0.1.0",
+  "description": "Write snabbdom views using React-style JSX and Babel",
+  "main": "snabbdom-react-jsx.js",
   "scripts": {
     "test": "babel-node test.js | tap-spec"
   },

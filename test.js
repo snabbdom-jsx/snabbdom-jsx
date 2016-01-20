@@ -1,7 +1,7 @@
 /** @jsx html */
 
 import test from 'tape';
-import { html } from './snabbdom-jsx';
+import { html } from './snabbdom-react-jsx';
 
 test('jsx -> html vnode', (assert) => {
 
