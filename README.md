@@ -22,7 +22,7 @@ onScroll onWheel
 onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded 
 ```
 
-The following is the original [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx) documentation:
+### The following is the original [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx) documentation:
 
 Write [Snabbdom](https://github.com/paldepind/snabbdom) virtual DOM with
 [Babel's JSX](http://babeljs.io/docs/advanced/transformers/other/react/).
