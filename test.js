@@ -34,15 +34,102 @@ test('jsx -> html vnode', (assert) => {
         style={style}
         style-color='red'
         class-cs-1={true}
-        on-click={callback}/>
+        defaultValue='foo'
+        onCut={callback}
+        onCopy={callback}
+        onPaste={callback}
+        onKeyDown={callback}
+        onKeyPress={callback}
+        onKeyUp={callback}
+        onFocus={callback}
+        onBlur={callback}
+        onChange={callback}
+        onInput={callback}
+        onSubmit={callback}
+        onClick={callback}
+        onContextMenu={callback}
+        onDoubleClick={callback}
+        onDrag={callback}
+        onDragEnd={callback}
+        onDragEnter={callback}
+        onDragExit={callback}
+        onDragLeave={callback}
+        onDragOver={callback}
+        onDragStart={callback}
+        onDrop={callback}
+        onMouseDown={callback}
+        onMouseEnter={callback}
+        onMouseLeave={callback}
+        onMouseMove={callback}
+        onMouseOut={callback}
+        onMouseOver={callback}
+        onMouseUp={callback}
+        onSelect={callback}
+        onTouchCancel={callback}
+        onTouchEnd={callback}
+        onTouchMove={callback}
+        onTouchStart={callback}
+        onScroll={callback}
+        onWheel={callback}
+        onAbort={callback}
+        onCanPlay={callback}
+        onCanPlayThrough={callback}
+        onDurationChange={callback}
+        onEmptied={callback}
+        onEncrypted={callback}
+        onEnded={callback}/>
     </div>;
 
   assert.deepEqual(div2.children[0], {
     sel: 'input',
     data: {
       ns: undefined,
-      props: { type: 'text' },
-      on: { click: callback },
+      props: { type: 'text', value: 'foo' },
+      on: {
+        cut: callback,
+        copy: callback,
+        paste: callback,
+        keydown: callback,
+        keypress: callback,
+        keyup: callback,
+        focus: callback,
+        blur: callback,
+        change: callback,
+        input: callback,
+        submit: callback,
+        click: callback,
+        contextmenu: callback,
+        dblclick: callback,
+        drag: callback,
+        dragend: callback,
+        dragenter: callback,
+        dragexit: callback,
+        dragleave: callback,
+        dragover: callback,
+        dragstart: callback,
+        drop: callback,
+        mousedown: callback,
+        mouseenter: callback,
+        mouseleave: callback,
+        mousemove: callback,
+        mouseout: callback,
+        mouseover: callback,
+        mouseup: callback,
+        select: callback,
+        touchcancel: callback,
+        touchend: callback,
+        touchmove: callback,
+        touchstart: callback,
+        scroll: callback,
+        wheel: callback,
+        abort: callback,
+        canplay: callback,
+        canplaythrough: callback,
+        durationchange: callback,
+        emptied: callback,
+        encrypted: callback,
+        ended: callback
+      },
       style: { fontWeight: 'bold', color: 'red' },
       class: { 'cs-1': true }
     },

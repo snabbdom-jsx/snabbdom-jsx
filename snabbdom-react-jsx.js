@@ -4,51 +4,28 @@ var SVGNS = 'http://www.w3.org/2000/svg';
 var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
-var reactEventMap = {
-  onCut: 'cut',
-  onCopy: 'copy',
-  onPaste: 'paste',
-  onKeyDown: 'keydown',
-  onKeyPress: 'keypress',
-  onKeyUp: 'keyup',
-  onFocus: 'focus',
-  onBlur: 'blur',
-  onChange: 'change',
-  onInput: 'input',
-  onSubmit: 'submit',
-  onClick: 'click',
-  onContextMenu: 'contextmenu',
-  onDoubleClick: 'dblclick',
-  onDrag: 'drag',
-  onDragEnd: 'dragend',
-  onDragEnter: 'dragenter',
-  onDragExit: 'dragexit',
-  onDragLeave: 'dragleave',
-  onDragOver: 'dragover',
-  onDragStart: 'dragstart',
-  onDrop: 'drop',
-  onMouseDown: 'mousedown',
-  onMouseEnter: 'mouseenter',
-  onMouseLeave: 'mouseleave',
-  onMouseMove: 'mousemove',
-  onMouseOut: 'mouseout',
-  onMouseOver: 'mouseover',
-  onMouseUp: 'mouseup',
-  onSelect: 'select',
-  onTouchCancel: 'touchcancel',
-  onTouchEnd: 'touchend',
-  onTouchMove: 'touchmove',
-  onTouchStart: 'touchstart',
-  onScroll: 'scroll',
-  onWheel: 'wheel',
-  onAbort: 'abort',
-  onCanPlay: 'canplay',
-  onCanPlayThrough: 'canplaythrough',
-  onDurationChange: 'durationchange',
-  onEmptied: 'emptied',
-  onEncrypted: 'encrypted',
-  onEnded: 'ended',
+var events = [
+  'cut', 'copy', 'paste',
+  'keydown', 'keypress', 'keyup',
+  'focus', 'blur', 'change', 'input', 'submit',
+  'click', 'contextmenu', 'dblclick',
+  'drag', 'dragend', 'dragenter', 'dragexit', 'dragleave', 'dragover', 'dragstart', 'drop',
+  'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'select',
+  'touchcancel', 'touchend', 'touchmove', 'touchstart',
+  'scroll', 'wheel',
+  'abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended'
+];
+
+var propMap = {
   defaultValue: 'value'
+};
+
+function isNativeEvent(key) {
+  return events.indexOf(toNativeEvent(key)) > -1;
+}
+
+function toNativeEvent(key) {
+  return key.slice(2).replace(/ouble/, 'bl').toLowerCase();
 }
 
 function assign(obj, ext) {
@@ -79,8 +56,10 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
       var idx = key.indexOf('-');
       if(idx > 0)
         addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
-      else if(Object.keys(reactEventMap).indexOf(key) > 0)
-        addAttr(key.indexOf('on') === 0 ? 'on' : defNS, reactEventMap[key], attrs[key]);
+      else if(isNativeEvent(key))
+        addAttr('on', toNativeEvent(key), attrs[key]);
+      else if(key in propMap)
+        addAttr(defNS, propMap[key], attrs[key]);
       else if(!map[key])
         addAttr(defNS, key, attrs[key]);
     }
