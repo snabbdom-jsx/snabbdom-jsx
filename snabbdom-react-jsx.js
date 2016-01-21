@@ -17,7 +17,8 @@ var events = [
 ];
 
 var propMap = {
-  defaultValue: 'value'
+  defaultValue: 'value',
+  autoFocus: 'autofocus'
 };
 
 function isNativeEvent(key) {

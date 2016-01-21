@@ -35,6 +35,7 @@ test('jsx -> html vnode', (assert) => {
         style-color='red'
         class-cs-1={true}
         defaultValue='foo'
+        autoFocus={true}
         onCut={callback}
         onCopy={callback}
         onPaste={callback}
@@ -84,7 +85,7 @@ test('jsx -> html vnode', (assert) => {
     sel: 'input',
     data: {
       ns: undefined,
-      props: { type: 'text', value: 'foo' },
+      props: { type: 'text', value: 'foo', autofocus: true },
       on: {
         cut: callback,
         copy: callback,
