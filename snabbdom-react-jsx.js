@@ -31,7 +31,7 @@ function toNativeEvent(key) {
 
 function assign(obj, ext) {
   for (var prop in ext) {
-    obj[prop] = (obj.hasOwnProperty(prop)) ? obj[prop] : ext[prop];
+    obj[prop] = ext[prop];
   }
   return obj;
 }
