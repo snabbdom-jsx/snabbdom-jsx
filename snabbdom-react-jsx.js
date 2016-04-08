@@ -21,6 +21,8 @@ var propMap = {
   autoFocus: 'autofocus'
 };
 
+var mapToAttrs = [ 'aria', 'data' ];
+
 function isNativeEvent(key) {
   return events.indexOf(toNativeEvent(key)) > -1;
 }
@@ -55,9 +57,15 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   for(var key in attrs) {
     if(key !== 'key' && key !== 'classNames' && key !== 'selector') {
       var idx = key.indexOf('-');
-      if(idx > 0)
-        addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
-      else if(isNativeEvent(key))
+      if(idx > 0) {
+        var ns = key.slice(0, idx);
+        var k = key.slice(idx + 1);
+        if (mapToAttrs.indexOf(ns) > -1) {
+          ns = 'attrs';
+          k = key;
+        }
+        addAttr(ns, k, attrs[key]);
+      } else if(isNativeEvent(key))
         addAttr('on', toNativeEvent(key), attrs[key]);
       else if(key in propMap)
         addAttr(defNS, propMap[key], attrs[key]);

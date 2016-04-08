@@ -9,7 +9,7 @@ test('jsx -> html vnode', (assert) => {
   const style = { fontWeight: 'bold' };
   const div1 =
     <div classNames="c1 c2">
-      <label htmlFor="someid">label</label>
+      <label aria-wot="hello" data-hook="wot" htmlFor="someid">label</label>
     </div>;
 
   assert.equal(div1.sel, 'div.c1.c2');
@@ -19,7 +19,8 @@ test('jsx -> html vnode', (assert) => {
       sel: 'label',
       data: {
         ns: undefined,
-        props: { htmlFor: 'someid' }
+        props: { htmlFor: 'someid' },
+        attrs: { 'aria-wot': 'hello', 'data-hook': 'wot' }
       },
       children: [{ text: 'label'}],
       key: undefined
@@ -29,6 +30,8 @@ test('jsx -> html vnode', (assert) => {
   const div2 =
     <div>
       <input
+        data-id="1"
+        aria-wot="2"
         type="text"
         key="key"
         style={style}
@@ -86,6 +89,10 @@ test('jsx -> html vnode', (assert) => {
     data: {
       ns: undefined,
       props: { type: 'text', value: 'foo', autofocus: true },
+      attrs: {
+        'data-id': '1',
+        'aria-wot': '2'
+      },
       on: {
         cut: callback,
         copy: callback,
