@@ -1,7 +1,9 @@
 /** @jsx html */
 
 import test from 'tape';
-import { html } from './snabbdom-react-jsx';
+import { html, svg } from './snabbdom-react-jsx';
+
+console.log(svg);
 
 test('jsx -> html vnode', (assert) => {
 
@@ -180,6 +182,22 @@ test('jsx components', (assert) => {
     }
   );
 
+
+  assert.end();
+});
+
+test('svg components', (assert) => {
+
+  const svgJsx = <svg>
+    <rect x="10" y="10" height="100" width="100"
+          style="stroke:#ff0000; fill: #0000ff"/>
+  </svg>;
+
+  const svgTest = svg('svg', null, [
+    svg('rect', { x: "10", y: "10", height: "100", width: "100", style: 'stroke:#ff0000; fill: #0000ff' })
+  ]);
+
+  assert.deepEqual(svgJsx, svgTest);
 
   assert.end();
 });

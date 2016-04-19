@@ -126,10 +126,21 @@ function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
   }
 }
 
+function svgChildren(children) {
+  return children.map(function(child) {
+    var props = child.data.props;
+    delete child.data.props;
+    return JSX(SVGNS, 'attrs')(child.sel, assign(child.data, props), svgChildren(child.children));
+  });
+}
+
 function JSX(nsURI, defNS, modules) {
   return function jsxWithCustomNS(tag, attrs, children) {
+    if (typeof tag === 'string' && tag === 'svg' && nsURI !== SVGNS) return JSX(SVGNS, 'attrs').apply(null, arguments);
     if(arguments.length > 3 || !Array.isArray(children))
       children = slice.call(arguments, 2);
+    if (tag === 'svg')
+      children = svgChildren(children);
     return buildVnode(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
   };
 }
