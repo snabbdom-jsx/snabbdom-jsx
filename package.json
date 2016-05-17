@@ -1,6 +1,6 @@
 {
   "name": "snabbdom-react-jsx",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Write snabbdom views using React-style JSX and Babel",
   "main": "snabbdom-react-jsx.js",
   "scripts": {

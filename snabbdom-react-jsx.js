@@ -18,7 +18,8 @@ var events = [
 
 var propMap = {
   defaultValue: 'value',
-  autoFocus: 'autofocus'
+  autoFocus: 'autofocus',
+  autoComplete: 'autocomplete'
 };
 
 var mapToAttrs = [ 'aria', 'data' ];
@@ -139,7 +140,7 @@ function JSX(nsURI, defNS, modules) {
     if (typeof tag === 'string' && tag === 'svg' && nsURI !== SVGNS) return JSX(SVGNS, 'attrs').apply(null, arguments);
     if(arguments.length > 3 || !Array.isArray(children))
       children = slice.call(arguments, 2);
-    if (tag === 'svg')
+    if (tag[0] === 's' && tag[1] === 'v' && tag[2] === 'g')
       children = svgChildren(children);
     return buildVnode(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
   };

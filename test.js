@@ -3,8 +3,6 @@
 import test from 'tape';
 import { html, svg } from './snabbdom-react-jsx';
 
-console.log(svg);
-
 test('jsx -> html vnode', (assert) => {
 
   function callback() {};
@@ -41,6 +39,7 @@ test('jsx -> html vnode', (assert) => {
         class-cs-1={true}
         defaultValue='foo'
         autoFocus={true}
+        autoComplete='off'
         onCut={callback}
         onCopy={callback}
         onPaste={callback}
@@ -90,7 +89,12 @@ test('jsx -> html vnode', (assert) => {
     sel: 'input',
     data: {
       ns: undefined,
-      props: { type: 'text', value: 'foo', autofocus: true },
+      props: {
+        type: 'text',
+        value: 'foo',
+        autofocus: true,
+        autocomplete: 'off'
+      },
       attrs: {
         'data-id': '1',
         'aria-wot': '2'
