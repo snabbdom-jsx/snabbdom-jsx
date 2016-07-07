@@ -1,7 +1,7 @@
 /** @jsx html */
 
 import test from 'tape';
-import { html } from './snabbdom-jsx';
+import { html, svg } from './snabbdom-react-jsx';
 
 test('jsx -> html vnode', (assert) => {
 
@@ -9,7 +9,7 @@ test('jsx -> html vnode', (assert) => {
   const style = { fontWeight: 'bold' };
   const div1 =
     <div classNames="c1 c2">
-      <label htmlFor="someid">label</label>
+      <label aria-wot="hello" data-hook="wot" htmlFor="someid">label</label>
     </div>;
 
   assert.equal(div1.sel, 'div.c1.c2');
@@ -19,7 +19,8 @@ test('jsx -> html vnode', (assert) => {
       sel: 'label',
       data: {
         ns: undefined,
-        props: { htmlFor: 'someid' }
+        props: { htmlFor: 'someid' },
+        attrs: { 'aria-wot': 'hello', 'data-hook': 'wot' }
       },
       children: [{ text: 'label'}],
       key: undefined
@@ -29,20 +30,120 @@ test('jsx -> html vnode', (assert) => {
   const div2 =
     <div>
       <input
+        data-id="1"
+        aria-wot="2"
         type="text"
         key="key"
         style={style}
         style-color='red'
         class-cs-1={true}
-        on-click={callback}/>
+        defaultValue='foo'
+        autoFocus={true}
+        autoComplete='off'
+        onCut={callback}
+        onCopy={callback}
+        onPaste={callback}
+        onKeyDown={callback}
+        onKeyPress={callback}
+        onKeyUp={callback}
+        onFocus={callback}
+        onBlur={callback}
+        onChange={callback}
+        onInput={callback}
+        onSubmit={callback}
+        onClick={callback}
+        onContextMenu={callback}
+        onDoubleClick={callback}
+        onDrag={callback}
+        onDragEnd={callback}
+        onDragEnter={callback}
+        onDragExit={callback}
+        onDragLeave={callback}
+        onDragOver={callback}
+        onDragStart={callback}
+        onDrop={callback}
+        onMouseDown={callback}
+        onMouseEnter={callback}
+        onMouseLeave={callback}
+        onMouseMove={callback}
+        onMouseOut={callback}
+        onMouseOver={callback}
+        onMouseUp={callback}
+        onSelect={callback}
+        onTouchCancel={callback}
+        onTouchEnd={callback}
+        onTouchMove={callback}
+        onTouchStart={callback}
+        onScroll={callback}
+        onWheel={callback}
+        onAbort={callback}
+        onCanPlay={callback}
+        onCanPlayThrough={callback}
+        onDurationChange={callback}
+        onEmptied={callback}
+        onEncrypted={callback}
+        onEnded={callback}/>
     </div>;
 
   assert.deepEqual(div2.children[0], {
     sel: 'input',
     data: {
       ns: undefined,
-      props: { type: 'text' },
-      on: { click: callback },
+      props: {
+        type: 'text',
+        value: 'foo',
+        autofocus: true,
+        autocomplete: 'off'
+      },
+      attrs: {
+        'data-id': '1',
+        'aria-wot': '2'
+      },
+      on: {
+        cut: callback,
+        copy: callback,
+        paste: callback,
+        keydown: callback,
+        keypress: callback,
+        keyup: callback,
+        focus: callback,
+        blur: callback,
+        change: callback,
+        input: callback,
+        submit: callback,
+        click: callback,
+        contextmenu: callback,
+        dblclick: callback,
+        drag: callback,
+        dragend: callback,
+        dragenter: callback,
+        dragexit: callback,
+        dragleave: callback,
+        dragover: callback,
+        dragstart: callback,
+        drop: callback,
+        mousedown: callback,
+        mouseenter: callback,
+        mouseleave: callback,
+        mousemove: callback,
+        mouseout: callback,
+        mouseover: callback,
+        mouseup: callback,
+        select: callback,
+        touchcancel: callback,
+        touchend: callback,
+        touchmove: callback,
+        touchstart: callback,
+        scroll: callback,
+        wheel: callback,
+        abort: callback,
+        canplay: callback,
+        canplaythrough: callback,
+        durationchange: callback,
+        emptied: callback,
+        encrypted: callback,
+        ended: callback
+      },
       style: { fontWeight: 'bold', color: 'red' },
       class: { 'cs-1': true }
     },
@@ -85,6 +186,22 @@ test('jsx components', (assert) => {
     }
   );
 
+
+  assert.end();
+});
+
+test('svg components', (assert) => {
+
+  const svgJsx = <svg>
+    <rect x="10" y="10" height="100" width="100"
+          style="stroke:#ff0000; fill: #0000ff"/>
+  </svg>;
+
+  const svgTest = svg('svg', null, [
+    svg('rect', { x: "10", y: "10", height: "100", width: "100", style: 'stroke:#ff0000; fill: #0000ff' })
+  ]);
+
+  assert.deepEqual(svgJsx, svgTest);
 
   assert.end();
 });

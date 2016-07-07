@@ -4,6 +4,41 @@ var SVGNS = 'http://www.w3.org/2000/svg';
 var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
+var events = [
+  'cut', 'copy', 'paste',
+  'keydown', 'keypress', 'keyup',
+  'focus', 'blur', 'change', 'input', 'submit',
+  'click', 'contextmenu', 'dblclick',
+  'drag', 'dragend', 'dragenter', 'dragexit', 'dragleave', 'dragover', 'dragstart', 'drop',
+  'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'select',
+  'touchcancel', 'touchend', 'touchmove', 'touchstart',
+  'scroll', 'wheel',
+  'abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended'
+];
+
+var propMap = {
+  defaultValue: 'value',
+  autoFocus: 'autofocus',
+  autoComplete: 'autocomplete'
+};
+
+var mapToAttrs = [ 'aria', 'data' ];
+
+function isNativeEvent(key) {
+  return events.indexOf(toNativeEvent(key)) > -1;
+}
+
+function toNativeEvent(key) {
+  return key.slice(2).replace(/ouble/, 'bl').toLowerCase();
+}
+
+function assign(obj, ext) {
+  for (var prop in ext) {
+    obj[prop] = ext[prop];
+  }
+  return obj;
+}
+
 function isPrimitive(val) {
   return  typeof val === 'string'   ||
           typeof val === 'number'   ||
@@ -23,8 +58,18 @@ function normalizeAttrs(attrs, nsURI, defNS, modules) {
   for(var key in attrs) {
     if(key !== 'key' && key !== 'classNames' && key !== 'selector') {
       var idx = key.indexOf('-');
-      if(idx > 0)
-        addAttr(key.slice(0, idx), key.slice(idx+1), attrs[key]);
+      if(idx > 0) {
+        var ns = key.slice(0, idx);
+        var k = key.slice(idx + 1);
+        if (mapToAttrs.indexOf(ns) > -1) {
+          ns = 'attrs';
+          k = key;
+        }
+        addAttr(ns, k, attrs[key]);
+      } else if(isNativeEvent(key))
+        addAttr('on', toNativeEvent(key), attrs[key]);
+      else if(key in propMap)
+        addAttr(defNS, propMap[key], attrs[key]);
       else if(!map[key])
         addAttr(defNS, key, attrs[key]);
     }
@@ -62,11 +107,11 @@ function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
 function buildFromComponent(nsURI, defNS, modules, tag, attrs, children) {
   var res;
   if(typeof tag === 'function')
-    res = tag(attrs, children);
+    res = tag(assign(attrs, { children: children }));
   else if(tag && typeof tag.view === 'function')
-    res = tag.view(attrs, children);
+    res = tag.view(assign(attrs, { children: children }));
   else if(tag && typeof tag.render === 'function')
-    res = tag.render(attrs, children);
+    res = tag.render(assign(attrs, { children: children }));
   else
     throw "JSX tag must be either a string, a function or an object with 'view' or 'render' methods";
   res.key = attrs.key;
@@ -82,10 +127,21 @@ function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
   }
 }
 
+function svgChildren(children) {
+  return children.map(function(child) {
+    var props = child.data.props;
+    delete child.data.props;
+    return JSX(SVGNS, 'attrs')(child.sel, assign(child.data, props), svgChildren(child.children));
+  });
+}
+
 function JSX(nsURI, defNS, modules) {
   return function jsxWithCustomNS(tag, attrs, children) {
+    if (typeof tag === 'string' && tag === 'svg' && nsURI !== SVGNS) return JSX(SVGNS, 'attrs').apply(null, arguments);
     if(arguments.length > 3 || !Array.isArray(children))
       children = slice.call(arguments, 2);
+    if (tag[0] === 's' && tag[1] === 'v' && tag[2] === 'g')
+      children = svgChildren(children);
     return buildVnode(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
   };
 }
