@@ -49,8 +49,8 @@ and generates virtual nodes as expected by Snabbdom's `patch` function.
 Mapping JSX attributes
 =======================
 
-A quick remainder: in snabbdom, most of the functionalities like toggling classes, styles
-and setting properties on DOM elements are delegated to separate modules.
+A quick reminder: in snabbdom, most of the functionality like toggling classes, styles
+and setting properties on DOM elements is delegated to separate modules.
 
 For example
 
