@@ -85,9 +85,8 @@ function flatten(nested, start, flat) {
 }
 
 function maybeFlatten(array) {
-  console.log("mmmaybe")
   if (array) {
-    for (var i = 0, len=array.length; i < len; i++) {
+    for (var i = 0, len = array.length; i < len; i++) {
       if (Array.isArray(array[i])) {
         var flat = array.slice(0, i);
         flatten(array, i, flat);
