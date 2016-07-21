@@ -1,6 +1,6 @@
 "use strict";
 
-var SVGNS = 'http://www.w3.org/2000/svg';    
+var SVGNS = 'http://www.w3.org/2000/svg';
 var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 var slice = Array.prototype.slice;
 
@@ -73,8 +73,34 @@ function buildFromComponent(nsURI, defNS, modules, tag, attrs, children) {
   return res;
 }
 
+function flatten(nested, start, flat) {
+  for (var i = start, len = nested.length; i < len; i++) {
+    var item = nested[i];
+    if (Array.isArray(item)) {
+      flatten(item, 0, flat);
+    } else {
+      flat.push(item);
+    }
+  }
+}
+
+function maybeFlatten(array) {
+  if (array) {
+    for (var i = 0, len = array.length; i < len; i++) {
+      if (Array.isArray(array[i])) {
+        var flat = array.slice(0, i);
+        flatten(array, i, flat);
+        array = flat;
+        break;
+      }
+    }
+  }
+  return array;
+}
+
 function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
   attrs = attrs || {};
+  children = maybeFlatten(children);
   if(typeof tag === 'string') {
     return buildFromStringTag(nsURI, defNS, modules, tag, attrs, children)
   } else {
