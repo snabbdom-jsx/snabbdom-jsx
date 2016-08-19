@@ -1,7 +1,7 @@
 "use strict";
 
 var SVGNS = 'http://www.w3.org/2000/svg';
-var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
+var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs', 'dataset'];
 var slice = Array.prototype.slice;
 
 function isPrimitive(val) {
