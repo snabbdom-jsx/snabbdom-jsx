@@ -1,3 +1,6 @@
+
+[![npm version](https://img.shields.io/npm/v/snabbdom-jsx.svg?style=flat-square)](https://www.npmjs.com/package/snabbdom-jsx)
+
 Write [Snabbdom](https://github.com/paldepind/snabbdom) virtual DOM with
 [Babel's JSX](http://babeljs.io/docs/advanced/transformers/other/react/).
 
