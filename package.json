@@ -1,6 +1,6 @@
 {
   "name": "snabbdom-jsx",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Write snabbdom views using JSX and Babel",
   "main": "snabbdom-jsx.js",
   "types": "snabbdom-jsx.d.ts",
