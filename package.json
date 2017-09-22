@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yelouafi/snabbdom-jsx.git"
+    "url": "https://github.com/snabbdom-jsx/snabbdom-jsx.git"
   },
   "keywords": [
     "snabbdom",
@@ -18,9 +18,9 @@
   "author": "Yassine Elouafi <yelouafi@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yelouafi/snabbdom-jsx/issues"
+    "url": "https://github.com/snabbdom-jsx/snabbdom-jsx/issues"
   },
-  "homepage": "https://github.com/yelouafi/snabbdom-jsx",
+  "homepage": "https://github.com/snabbdom-jsx/snabbdom-jsx",
   "devDependencies": {
     "babel-cli": "^6.1.18",
     "babel-preset-es2015": "^6.1.2",
